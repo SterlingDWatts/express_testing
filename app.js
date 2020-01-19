@@ -81,38 +81,13 @@ app.get('/generate', (req, res) => {
 function toRadians(deg) {
     return deg * (Math.PI / 180);
 }
-
+  
 function toDegrees(rad) {
     return rad * (180 / Math.PI);
 }
-
+  
 app.get('/midpoint', (req, res) => {
-
     const { lat1, lon1, lat2, lon2 } = req.query;
-
-    if (!lat1) {
-        return res
-            .status(400)
-            .send('Value for "lat1" is required.');
-    }
-
-    if (!lon1) {
-        return res
-            .status(400)
-            .send('Value for "lon1" is required.');
-    }
-
-    if (!lat2) {
-        return res
-            .status(400)
-            .send('Value for "lat2" is required.');
-    }
-
-    if (!lon2) {
-        return res
-            .status(400)
-            .send('Value for "lon2" is required.');
-    }
 
     const rlat1 = toRadians(lat1);
     const rlon1 = toRadians(lon1);
@@ -131,7 +106,7 @@ app.get('/midpoint', (req, res) => {
         )
     );
 
-    const midLon = rlon + Math.atan2(by, Math.cos(rlat1) + bx);
+    const midLon = rlon1 + Math.atan2(by, Math.cos(rlat1) + bx);
 
     res.json({
         lat: toDegrees(midLat),
