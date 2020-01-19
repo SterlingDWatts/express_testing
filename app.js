@@ -78,4 +78,65 @@ app.get('/generate', (req, res) => {
 
 });
 
+function toRadians(deg) {
+    return deg * (Math.PI / 180);
+}
+
+function toDegrees(rad) {
+    return rad * (180 / Math.PI);
+}
+
+app.get('/midpoint', (req, res) => {
+
+    const { lat1, lon1, lat2, lon2 } = req.query;
+
+    if (!lat1) {
+        return res
+            .status(400)
+            .send('Value for "lat1" is required.');
+    }
+
+    if (!lon1) {
+        return res
+            .status(400)
+            .send('Value for "lon1" is required.');
+    }
+
+    if (!lat2) {
+        return res
+            .status(400)
+            .send('Value for "lat2" is required.');
+    }
+
+    if (!lon2) {
+        return res
+            .status(400)
+            .send('Value for "lon2" is required.');
+    }
+
+    const rlat1 = toRadians(lat1);
+    const rlon1 = toRadians(lon1);
+    const rlat2 = toRadians(lat2);
+    const rlon2 = toRadians(lon2);
+
+    const bx = Math.cos(rlat2) * Math.cos(rlon2 - rlon1);
+    const by = Math.cos(rlat2) * Math.sin(rlon2 - rlon1);
+
+    const midLat = Math.atan2(
+        Math.sin(rlat1) + Math.sin(rlat2),
+        Math.sqrt(
+            (Math.cos(rlat1) + bx)
+            * (Math.cos(rlat1) + bx)
+            + by * by
+        )
+    );
+
+    const midLon = rlon + Math.atan2(by, Math.cos(rlat1) + bx);
+
+    res.json({
+        lat: toDegrees(midLat),
+        lon: toDegrees(midLon)
+    })
+});
+
 module.exports = app;
