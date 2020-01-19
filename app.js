@@ -51,4 +51,31 @@ app.get('/sum', (req, res) => {
 
 });
 
+app.get('/generate', (req, res) => {
+
+    const { n } = req.query;
+
+    const num = parseInt(n);
+
+    if (isNaN(num)) {
+        return res
+            .status(400)
+            .send('Invalid request');
+    };
+
+    const initial = Array(num)
+        .fill(1)
+        .map((_, i) => i + 1);
+
+    initial.forEach((e, i) => {
+        let ran = Math.floor(Math.random() * num);
+        let temp = initial[i];
+        initial[i] = initial[ran];
+        initial[ran] = temp;
+    })
+
+    res.json(initial);
+
+});
+
 module.exports = app;
