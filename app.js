@@ -127,9 +127,9 @@ app.get('/frequency', (req, res) => {
         .toLowerCase()
         .split('')
         .reduce((acc, curr) => {
-            if (acc[curr]) {
+            if (acc[curr] && curr !== ' ') {
                 acc[curr] ++;
-            } else {
+            } else if (curr !== ' ') {
                 acc[curr] = 1;
             }
             return acc;
