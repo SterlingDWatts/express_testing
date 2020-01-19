@@ -42,12 +42,12 @@ app.get('/sum', (req, res) => {
     if (numB == 0) {
         return res
             .status(400)
-            .send('Cannot divide by 0');
+            .send('Cannot divide by 0.');
     }
 
     const ans = numA / numB;
 
-    res.send(`${a} divided by ${b} is ${ans}`);
+    res.send(`${a} divided by ${b} is ${ans}.`);
 
 });
 
